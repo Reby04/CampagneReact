@@ -36,7 +36,7 @@ function handleChange(value) {
                    <Column  title="Azione" dataIndex="Azione" key="Azione" >
                     </Column>
                 </Table>
-               <Link to="/App"><Button>Nuova Campagna</Button></Link> 
+               <Link to="/NuovaCampagna"><Button>Nuova Campagna</Button></Link> 
                 </div>
           </header>
         </div>

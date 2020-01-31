@@ -1,6 +1,7 @@
 import React from 'react';
 import { Home } from './Home';
 import { Router } from '@reach/router';
+import { NuovaCampagna } from './NuovaCampagna';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   return (
     <Router>
     <Home path="/" dataVar={data}></Home>
+    <NuovaCampagna path="/NuovaCampagna"></NuovaCampagna>
     </Router>
    
   );
