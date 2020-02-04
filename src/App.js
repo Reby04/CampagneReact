@@ -5,6 +5,7 @@ import { NuovaCampagna } from "./NuovaCampagna";
 import { StepTempo } from "./StepTempo";
 import { StepLocation } from "./StepLocation";
 import { StepUtente } from "./StepUtente";
+import { StepActions } from "./StepActions";
 
 function App() {
   const data = [
@@ -22,6 +23,7 @@ function App() {
       <StepTempo path="/StepTempo"></StepTempo>
       <StepLocation path="/StepLocation"></StepLocation>
       <StepUtente path="/StepUtente"></StepUtente>
+      <StepActions path="/StepActions"></StepActions>
     </Router>
   );
 }

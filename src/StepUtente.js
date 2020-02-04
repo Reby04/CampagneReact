@@ -4,21 +4,33 @@ import {
   Col,
   DatePicker,
   Button,
-  Radio,
   Divider,
   Card,
-  Checkbox,
-  Select
+  Select,
+  Radio
 } from "antd";
 import moment from "moment";
+import { Link } from "@reach/router";
 
 export const StepUtente = () => {
   const dateFormat = "DD/MM/YYYY";
   const { Option } = Select;
+  const [selectedOptions, setPlainOptions] = useState("negozioFavorito");
+
+  const option = [
+    { label: "Negozio Favorito", value: "negozioFavorito" },
+    { label: "Negozio Frequentato", value: "negozioFrequentato" }
+  ];
 
   const handleChange = value => {
     console.log(`selected ${value}`);
   };
+
+  const onChangeOption = e => {
+    console.log("radio1 checked", e.target.value);
+    setPlainOptions(e.target.value);
+  };
+
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Nuova Campagna</h1>
@@ -259,7 +271,7 @@ export const StepUtente = () => {
         <br></br>
         <p></p>
         <div>
-          <Card title="Touch Point Prodotti">
+          <Card title="Touch Point Prodotti" style={{ width: 1600 }}>
             <Row>
               <Col span={4}>Tipologia Merceologica</Col>
               <Col span={4}>Classe Merceologica</Col>
@@ -326,6 +338,233 @@ export const StepUtente = () => {
               </Row>
             </div>
           </Card>
+        </div>
+        <br></br>
+        <p></p>
+        <div>
+          <Card title="Analisi e Frequenza" style={{ width: 1600 }}>
+            <Row>
+              <Col span={6}>Frequenza media acquisto cliente</Col>
+              <Col span={6}>Frequenza media accesso online</Col>
+              <Col span={6}>Frequenza media accesso in negozio</Col>
+            </Row>
+            <br></br>
+
+            <div>
+              <Row>
+                <Col span={6}>
+                  <Select
+                    defaultValue="ComboBox"
+                    style={{ width: 160 }}
+                    onChange={handleChange}
+                  >
+                    <Option value="ComboBox">ComboBox</Option>
+                    <Option value="Altro">Altro</Option>
+                  </Select>
+                </Col>
+                <Col span={6}>
+                  <Select
+                    defaultValue="ComboBox"
+                    style={{ width: 160 }}
+                    onChange={handleChange}
+                  >
+                    <Option value="ComboBox">ComboBox</Option>
+                    <Option value="Altro">Altro</Option>
+                  </Select>
+                </Col>
+                <Col span={6}>
+                  <Select
+                    defaultValue="ComboBox"
+                    style={{ width: 160 }}
+                    onChange={handleChange}
+                  >
+                    <Option value="ComboBox">ComboBox</Option>
+                    <Option value="Altro">Altro</Option>
+                  </Select>
+                </Col>
+              </Row>
+            </div>
+            <br></br>
+            <p></p>
+            <div>
+              <Row>
+                <Col span={6}>Frequenza media acquisto cliente</Col>
+                <Col span={6}>Frequenza media accesso online</Col>
+                <Col span={6}>Frequenza media accesso in negozio</Col>
+              </Row>
+              <br></br>
+
+              <div>
+                <Row>
+                  <Col span={6}>
+                    <Select
+                      defaultValue="ComboBox"
+                      style={{ width: 160 }}
+                      onChange={handleChange}
+                    >
+                      <Option value="ComboBox">ComboBox</Option>
+                      <Option value="Altro">Altro</Option>
+                    </Select>
+                  </Col>
+                  <Col span={6}>
+                    <Select
+                      defaultValue="ComboBox"
+                      style={{ width: 160 }}
+                      onChange={handleChange}
+                    >
+                      <Option value="ComboBox">ComboBox</Option>
+                      <Option value="Altro">Altro</Option>
+                    </Select>
+                  </Col>
+                  <Col span={6}>
+                    <Select
+                      defaultValue="ComboBox"
+                      style={{ width: 160 }}
+                      onChange={handleChange}
+                    >
+                      <Option value="ComboBox">ComboBox</Option>
+                      <Option value="Altro">Altro</Option>
+                    </Select>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+            <div>
+              <br></br>
+              <p></p>
+              <Row>
+                <Col span={6}>Fascia importo acquisto medio</Col>
+              </Row>
+              <br></br>
+
+              <div>
+                <Row>
+                  <Col span={6}>
+                    <Select
+                      defaultValue="ComboBox"
+                      style={{ width: 160 }}
+                      onChange={handleChange}
+                    >
+                      <Option value="ComboBox">ComboBox</Option>
+                      <Option value="Altro">Altro</Option>
+                    </Select>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+          </Card>
+          <div>
+            <Card title="Negozio Favorito" style={{ width: 1600 }}>
+              <div>
+                <Row>
+                  <Col span={6}>
+                    <Radio.Group
+                      options={option}
+                      onChange={onChangeOption}
+                      value={selectedOptions}
+                    ></Radio.Group>
+                  </Col>
+                </Row>
+                <br></br>
+                <p></p>
+                <div>
+                  <Row>
+                    <Col span={6}>Nazione</Col>
+                    <Col span={6}>Tipologia POS</Col>
+                    <Col span={6}>POS</Col>
+                  </Row>
+                </div>
+                <br></br>
+                <div>
+                  <Row>
+                    <Col span={6}>
+                      <Select
+                        defaultValue="Italia"
+                        style={{ width: 160 }}
+                        onChange={handleChange}
+                      >
+                        <Option value="Italia">Italia</Option>
+                        <Option value="Altro">Altro</Option>
+                      </Select>
+                    </Col>
+                    <Col span={6}>
+                      <Select
+                        defaultValue="Boutique"
+                        style={{ width: 160 }}
+                        onChange={handleChange}
+                      >
+                        <Option value="Boutique">Boutique</Option>
+                        <Option value="Altro">Altro</Option>
+                      </Select>
+                    </Col>
+                    <Col span={6}>
+                      <Select
+                        defaultValue="sanGiovanni"
+                        style={{ width: 160 }}
+                        onChange={handleChange}
+                      >
+                        <Option value="sanGiovanni">
+                          Piazza San Giovanni, 17
+                        </Option>
+                        <Option value="Altro"> Altro</Option>
+                      </Select>
+                    </Col>
+                  </Row>
+                </div>
+                <br></br>
+                <p></p>
+                <Row>
+                  <Col span={6}>Condizione Temporale</Col>
+                  <Col span={6}>Tipologia POS</Col>
+                </Row>
+              </div>
+              <br></br>
+              <div>
+                <Row>
+                  <Col span={6}>
+                    <Select
+                      defaultValue="ComboBox"
+                      style={{ width: 160 }}
+                      onChange={handleChange}
+                    >
+                      <Option value="ComboBox">ComboBox</Option>
+                      <Option value="Altro">Altro</Option>
+                    </Select>
+                  </Col>
+                  <Col span={6}>
+                    <Select
+                      defaultValue="Camerino"
+                      style={{ width: 160 }}
+                      onChange={handleChange}
+                    >
+                      <Option value="Camerino">Camerino</Option>
+                      <Option value="Altro">Altro</Option>
+                    </Select>
+                  </Col>
+                </Row>
+              </div>
+            </Card>
+          </div>
+          <br></br>
+          <p></p>
+
+          <div style={{ paddingLeft: 100 }}>
+            <Row>
+              <Col span={6}>
+                <Link to="/StepLocation">
+                  <Button>Indietro</Button>
+                </Link>
+              </Col>
+              <Col span={6}></Col>
+              <Col span={6}></Col>
+
+              <Col span={6}>
+                <Link to="/StepActions">
+                  <Button>Avanti</Button>
+                </Link>
+              </Col>
+            </Row>
+          </div>
         </div>
       </div>
     </div>

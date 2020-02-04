@@ -205,7 +205,7 @@ export const StepLocation = () => {
         <br></br>
         <p></p>
 
-        <div style={{ paddingLeft: 100 }}>
+        <div>
           <Row>
             <Col span={6}>
               <Link to="/StepTempo">

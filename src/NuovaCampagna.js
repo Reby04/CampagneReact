@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Input, DatePicker, Button, Divider } from "antd";
 import moment from "moment";
 import { Select } from "antd";
 import { Link } from "@reach/router";
 
 export const NuovaCampagna = () => {
-  const dateFormat = "DD/MM/YYYY";
+  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
   const { Option } = Select;
   const { TextArea } = Input;
+  const [nuovaCampagna, setNuovaCampagna] = useState({
+    nomeCampagna: "",
+    dataInizio: "",
+    dataFine: "",
+    profiloCampagna: "",
+    note: ""
+  });
+  console.log(nuovaCampagna);
 
-  function handleChange(value) {
-    console.log(`selected ${value}`);
+  function handleChange(event) {
+    console.log(`selected ${event}`);
   }
 
+  const onChangeInput = event => {
+    console.log(event.target.name);
+    setNuovaCampagna({
+      ...nuovaCampagna,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const onChange = () => {
+    localStorage.setItem("Nuova Campagna", nuovaCampagna);
+  };
+
   return (
-    <div>
+    <div style={{ paddingLeft: 80, paddingTop: 50, paddingRight: 80 }}>
       <h1 style={{ textAlign: "center" }}>Nuova Campagna</h1>
       <Divider></Divider>
       <div className="gutter-example">
@@ -24,6 +44,7 @@ export const NuovaCampagna = () => {
               <h1 style={{ textAlign: "center" }}>Step 1</h1>
             </div>
           </Col>
+
           <Col className="gutter-row" span={6}>
             <div>
               <h1 style={{ textAlign: "center" }}>Step 2</h1>
@@ -44,8 +65,8 @@ export const NuovaCampagna = () => {
         <Row style={{ height: 10 }} gutter={16}>
           <Col className="gutter-row" span={6}>
             <div>
-              <p style={{ textAlign: "center" }}>
-                Step Inizializzazione Campagna
+              <p style={{ textAlign: "center", textSizeAdjust: 8 }}>
+                Nuova Campagna
               </p>
             </div>
           </Col>
@@ -53,68 +74,98 @@ export const NuovaCampagna = () => {
         <Divider></Divider>
       </div>
       <br></br>
-
-      <Row gutter={16}>
-        <Col>
-          <div style={{ paddingLeft: 200 }}>
-            <div style={{ paddingLeft: 130, width: 335 }}>
-              <p>
-                Nome Campagna
-                <Input placeholder="" />
-              </p>
-            </div>
-          </div>
-          <div style={{ paddingLeft: 200 }}>
-            <div style={{ paddingLeft: 130, paddingRight: 1300 }}>
-              <p>
-                Data Inizio Campagna
-                <DatePicker
-                  defaultValue={moment("03/02/2020", dateFormat)}
-                  format={dateFormat}
-                />
-              </p>
-            </div>
-          </div>
-          <div style={{ paddingLeft: 200 }}>
-            <div style={{ paddingLeft: 130, paddingRight: 1300 }}>
-              <p>
-                Data Fine Campagna
-                <DatePicker
-                  defaultValue={moment("03/02/2020", dateFormat)}
-                  format={dateFormat}
-                />
-              </p>
-            </div>
-          </div>
-          <div style={{ paddingLeft: 200 }}>
-            <div style={{ paddingLeft: 130, paddingRight: 1300 }}>
-              <p>
-                Profilo Campagna
-                <Select
-                  defaultValue="Global"
-                  style={{ width: 200 }}
-                  onChange={handleChange}
-                >
-                  <Option value="Global">Global Compain</Option>
-                  <Option value="Local">Local Compain</Option>
-                </Select>
-              </p>
-            </div>
-            <div>
-              <div style={{ paddingLeft: 130, paddingRight: 1300 }}>
-                <p>
-                  Note
-                  <TextArea rows={2} />
-                </p>
-              </div>
-            </div>
-          </div>
+      <Row>
+        <Col span={6}>Nome Campagna</Col>
+        <Col span={6}>
+          <Input name="nomeCampagna" placeholder="" onChange={onChangeInput} />
         </Col>
       </Row>
-      <div style={{ paddingLeft: 1600 }}>
-        <Link to="/StepTempo">
-          <Button>Avanti</Button>
-        </Link>
+      <br></br>
+      <div>
+        <Row>
+          <Col span={6}>Data Inizio Campagna</Col>
+          <Col span={6}>
+            <DatePicker
+              defaultValue={moment("04/02/2020", dateFormatList[0])}
+              name="dataInizio"
+              format={dateFormatList}
+              onChange={(date, dateString) => {
+                setNuovaCampagna({
+                  ...nuovaCampagna,
+                  dataInizio: date.valueOf()
+                });
+              }}
+            />
+          </Col>
+        </Row>
+      </div>
+      <br></br>
+      <div>
+        <Row>
+          <Col span={6}>Data Fine Campagna</Col>
+          <Col span={6}>
+            <DatePicker
+              defaultValue={moment("04/02/2020", dateFormatList[0])}
+              name="dataFine"
+              format={dateFormatList}
+              onChange={(date, dateString) => {
+                setNuovaCampagna({
+                  ...nuovaCampagna,
+                  dataInizio: date.valueOf()
+                });
+              }}
+            />
+          </Col>
+        </Row>
+      </div>
+      <br></br>
+      <div>
+        <Row>
+          <Col span={6}>Profilo Campagna</Col>
+          <Col span={6}>
+            <Select
+              name="profiloCampagna"
+              defaultValue="Global"
+              style={{ width: 160 }}
+              onChange={handleChange}
+            >
+              <Option value="Global">Global Campain</Option>
+              <Option value="Local">Local Campain</Option>
+            </Select>
+          </Col>
+        </Row>
+      </div>
+      <br></br>
+      <div>
+        <Row>
+          <Col span={6}>Note</Col>
+          <Col span={6}>
+            <TextArea
+              name="note"
+              onChange={onChangeInput}
+              rows={2}
+              style={{ paddingRight: 100 }}
+            />
+          </Col>
+        </Row>
+      </div>
+      <div>
+        <br></br>
+        <p></p>
+
+        <div>
+          <Row>
+            <Col span={6}></Col>
+            <Col span={6}></Col>
+            <Col span={6}></Col>
+
+            <Col span={6}>
+              <Link to="/StepTempo">
+                <Button onClick={onChange}>Avanti</Button>
+              </Link>
+            </Col>
+          </Row>
+        </div>
       </div>
     </div>
   );
