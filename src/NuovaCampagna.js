@@ -127,7 +127,12 @@ export const NuovaCampagna = () => {
               name="profiloCampagna"
               defaultValue="Global"
               style={{ width: 160 }}
-              onChange={handleChange}
+              onChange={value => {
+                setNuovaCampagna({
+                  ...nuovaCampagna,
+                  profiloCampagna: value
+                });
+              }}
             >
               <Option value="Global">Global Campain</Option>
               <Option value="Local">Local Campain</Option>
