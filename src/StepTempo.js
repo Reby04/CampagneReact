@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -23,6 +23,29 @@ export const StepTempo = () => {
     { label: "Sempre", value: "Sempre" }
   ];
 
+  const [stepTempo, setStepTempo] = useState({
+    Checkbox: "",
+    Festivo: "",
+    TuttiGG: "",
+    Time1: "",
+    Time2: "",
+    Time3: "",
+    Time4: "",
+    Stagioni: "",
+    Temp: "",
+    TempAttuale: "",
+    TempMax: "",
+    Meteo: ""
+  });
+
+  useEffect(() => {
+    console.log("use Effect");
+    var local = localStorage.getItem("Step Tempo");
+    console.log(JSON.parse(local));
+    setStepTempo(JSON.parse(local));
+  }, []);
+
+  console.log(stepTempo);
   const week = [
     { label: "Lun", value: "Lun" },
     { label: "Mar", value: "Mar" },
@@ -40,12 +63,16 @@ export const StepTempo = () => {
     setPlainOptions(e.target.value);
   };
 
-  const onChangeWeek = e => {
+  /* const onChangeWeek = e => {
     setSelectedWeek(e);
   };
 
   const handleChange = value => {
     console.log(`selected ${value}`);
+  };*/
+
+  const onChange = () => {
+    localStorage.setItem("Step Tempo", JSON.stringify(stepTempo));
   };
 
   return (
@@ -100,13 +127,40 @@ export const StepTempo = () => {
         {selectedOptions === "Condizione temporale" && (
           <Card title="Condizione Temporale" style={{ width: 800 }}>
             <Checkbox.Group
+              name="Checkbox"
               options={week}
               defaultValue={["Lun"]}
-              onChange={onChangeWeek}
+              onChange={value => {
+                setStepTempo({
+                  ...stepTempo,
+                  Checkbox: value
+                });
+              }}
             />
-            <Checkbox defaultChecked={false}>Festivo</Checkbox>
+            <Checkbox
+              name="Festivo"
+              defaultChecked={false}
+              onChange={value => {
+                setStepTempo({
+                  ...stepTempo,
+                  Checkbox: value
+                });
+              }}
+            >
+              Festivo
+            </Checkbox>
             <div>
-              <Checkbox style={{ paddingLeft: 444 }} defaultChecked={false}>
+              <Checkbox
+                name="TuttiGG"
+                style={{ paddingLeft: 444 }}
+                defaultChecked={false}
+                onChange={value => {
+                  setStepTempo({
+                    ...stepTempo,
+                    Checkbox: value
+                  });
+                }}
+              >
                 Tutti i GG
               </Checkbox>
             </div>
@@ -116,15 +170,29 @@ export const StepTempo = () => {
                 <Col span={6}>
                   <p>Ora Inizio</p>
                   <TimePicker
+                    name="Time1"
                     defaultValue={moment("00:00", format)}
                     format={format}
+                    onChange={(time, timeSring) =>
+                      setStepTempo({
+                        ...stepTempo,
+                        Time1: time.valueOf()
+                      })
+                    }
                   />
                 </Col>
                 <Col span={6}>
                   <p>Ora Fine</p>
                   <TimePicker
+                    name="Time2"
                     defaultValue={moment("00:00", format)}
                     format={format}
+                    onChange={(time, timeString) =>
+                      setStepTempo({
+                        ...stepTempo,
+                        Time2: time.valueOf()
+                      })
+                    }
                   />
                 </Col>
                 <p></p>
@@ -137,14 +205,28 @@ export const StepTempo = () => {
               <Row gutter={16}>
                 <Col span={6}>
                   <TimePicker
+                    name="Time3"
                     defaultValue={moment("00:00", format)}
                     format={format}
+                    onChange={(time, timeSring) =>
+                      setStepTempo({
+                        ...stepTempo,
+                        Time3: time.valueOf()
+                      })
+                    }
                   />
                 </Col>
                 <Col span={6}>
                   <TimePicker
+                    name="Time4"
                     defaultValue={moment("00:00", format)}
                     format={format}
+                    onChange={(time, timeSring) =>
+                      setStepTempo({
+                        ...stepTempo,
+                        Time4: time.valueOf()
+                      })
+                    }
                   />
                 </Col>
                 <Col span={6}>
@@ -168,9 +250,15 @@ export const StepTempo = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  name="Stagioni"
                   defaultValue="autunno"
                   style={{ width: 120 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepTempo({
+                      ...stepTempo,
+                      Stagioni: value
+                    });
+                  }}
                 >
                   <Option value="autunno">Autunno</Option>
                   <Option value="inverno">Inverno</Option>
@@ -183,9 +271,15 @@ export const StepTempo = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  name="Temp"
                   defaultValue="10"
                   style={{ width: 120 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepTempo({
+                      ...stepTempo,
+                      Temp: value
+                    });
+                  }}
                 >
                   <Option value="10">10</Option>
                   <Option value="11">11</Option>
@@ -201,9 +295,15 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    name="TempAttuale"
                     defaultValue="10"
                     style={{ width: 120 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepTempo({
+                        ...stepTempo,
+                        TempAttuale: value
+                      });
+                    }}
                   >
                     <Option value="10">10</Option>
                     <Option value="11">11</Option>
@@ -216,9 +316,15 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    name="TempMax"
                     defaultValue="10"
                     style={{ width: 120 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepTempo({
+                        ...stepTempo,
+                        TempMax: value
+                      });
+                    }}
                   >
                     <Option value="10">10</Option>
                     <Option value="11">11</Option>
@@ -235,9 +341,15 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    name="Meteo"
                     defaultValue="Nuvoloso"
                     style={{ width: 120 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepTempo({
+                        ...stepTempo,
+                        Meteo: value
+                      });
+                    }}
                   >
                     <Option value="Nuvoloso">Nuvoloso</Option>
                     <Option value="Soleggiato">Soleggiato</Option>
@@ -264,7 +376,7 @@ export const StepTempo = () => {
 
           <Col span={6}>
             <Link to="/StepLocation">
-              <Button>Avanti</Button>
+              <Button onClick={onChange}>Avanti</Button>
             </Link>
           </Col>
         </Row>

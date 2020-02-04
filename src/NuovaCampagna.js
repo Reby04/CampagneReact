@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Input, DatePicker, Button, Divider } from "antd";
 import moment from "moment";
 import { Select } from "antd";
@@ -17,10 +17,17 @@ export const NuovaCampagna = () => {
   });
   console.log(nuovaCampagna);
 
-  function handleChange(event) {
+  useEffect(() => {
+    console.log("use Effect");
+    var local = localStorage.getItem("Nuova Campagna");
+    console.log(JSON.parse(local));
+    setNuovaCampagna(JSON.parse(local));
+  }, []);
+
+  /* function handleChange(event) {
     console.log(`selected ${event}`);
   }
-
+*/
   const onChangeInput = event => {
     console.log(event.target.name);
     setNuovaCampagna({
@@ -30,7 +37,7 @@ export const NuovaCampagna = () => {
   };
 
   const onChange = () => {
-    localStorage.setItem("Nuova Campagna", nuovaCampagna);
+    localStorage.setItem("Nuova Campagna", JSON.stringify(nuovaCampagna));
   };
 
   return (
