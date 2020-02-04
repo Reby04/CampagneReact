@@ -118,7 +118,7 @@ export const NuovaCampagna = () => {
               onChange={(date, dateString) => {
                 setNuovaCampagna({
                   ...nuovaCampagna,
-                  dataInizio: date.valueOf()
+                  dataFine: date.valueOf()
                 });
               }}
             />

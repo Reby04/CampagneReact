@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -21,6 +21,14 @@ export const StepUtente = () => {
     { label: "Negozio Favorito", value: "negozioFavorito" },
     { label: "Negozio Frequentato", value: "negozioFrequentato" }
   ];
+
+  const [StepUtente, setStepUtente] = useState({
+    sesso: "",
+    data: "",
+    fascia: "",
+    stato: "",
+    indirizzo: ""
+  });
 
   const handleChange = value => {
     console.log(`selected ${value}`);
@@ -84,9 +92,15 @@ export const StepUtente = () => {
             <Row>
               <Col span={6}>
                 <Select
+                  name="sesso"
                   defaultValue="M"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepUtente({
+                      ...StepUtente,
+                      sesso: value
+                    });
+                  }}
                 >
                   <Option value="M">M</Option>
                   <Option value="F">F</Option>
@@ -94,15 +108,28 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <DatePicker
+                  name="data"
                   defaultValue={moment("03/02/20", dateFormat)}
                   format={dateFormat}
+                  onChange={(date, dateString) => {
+                    setStepUtente({
+                      ...StepUtente,
+                      data: date.valueOf()
+                    });
+                  }}
                 />
               </Col>
               <Col span={6}>
                 <Select
+                  name="fascia"
                   defaultValue="25-35"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepUtente({
+                      ...StepUtente,
+                      fascia: value
+                    });
+                  }}
                 >
                   <Option value="25-35">25-35</Option>
                   <Option value="36-46">36-46</Option>
@@ -110,9 +137,15 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  name="stato"
                   defaultValue="Nubile"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepUtente({
+                      ...StepUtente,
+                      stato: value
+                    });
+                  }}
                 >
                   <Option value="Nubile">Nubile</Option>
                   <Option value="Celice">Celibe</Option>
@@ -136,9 +169,15 @@ export const StepUtente = () => {
             <Row>
               <Col span={6}>
                 <Select
+                  name="indirizzo"
                   defaultValue="Domicilio"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepUtente({
+                      ...StepUtente,
+                      indirizzo: value
+                    });
+                  }}
                 >
                   <Option value="Domicilio">Domicilio</Option>
                   <Option value="Residenza">Residenza</Option>

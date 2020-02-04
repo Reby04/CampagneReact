@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Divider, Card, Select } from "antd";
 import { Link } from "@reach/router";
 
 export const StepActions = () => {
   const { Option } = Select;
+  const [stepAtion, setStepAction] = useState({});
   const handleChange = value => {
     console.log(`selected ${value}`);
   };
@@ -11,6 +12,18 @@ export const StepActions = () => {
   const onChangeSave = () => {
     // JSON.stringify(Step1);
   };
+
+  useEffect(() => {
+    console.log("use Effect");
+    var local = localStorage.getItem("Step Action");
+    console.log(JSON.parse(local));
+    setStepAction(JSON.parse(local));
+  }, []);
+
+  const onChange = () => {
+    localStorage.setItem("Step Action", JSON.stringify(stepAtion));
+  };
+
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Nuova Campagna</h1>
