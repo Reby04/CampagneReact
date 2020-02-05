@@ -2,9 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Divider, Select, Radio, Card, Button } from "antd";
 import { Link } from "@reach/router";
 
+const defaultValue = {
+  Country: "it-IT",
+  TipologiaPOS: "Boutique",
+  POS: "sanGiovanni",
+  DistanzaEntrata: "a30m",
+  DistanzaUscita: "a30m",
+  Distanza: "a30m",
+  Merce: "Abbigliamento",
+  Zona: "Camerino",
+  Classe: "Abito",
+  Sottoclasse: "Mini"
+};
+
 export const StepLocation = () => {
   const { Option } = Select;
-  const [selectedOptions, setPlainOptions] = useState("internoNegozio");
 
   const option = [
     { label: "Interno del negizio", value: "internoNegozio" },
@@ -16,32 +28,18 @@ export const StepLocation = () => {
     { label: "30 Km", value: "30km" }
   ];
 
-  const [StepLocation, setStepLocation] = useState({
-    Country: "",
-    TipologiaPOS: "",
-    POS: "",
-    DistanzaEntrata: "",
-    DistanzaUscita: ""
-  });
+  const [StepLocation, setStepLocation] = useState(defaultValue);
 
   useEffect(() => {
     console.log("use Effect");
     var local = localStorage.getItem("Step Location");
     console.log(JSON.parse(local));
-    setStepLocation(JSON.parse(local));
+    setStepLocation(JSON.parse(local) || defaultValue);
   }, []);
-
-  const handleChange = value => {
-    console.log(`selected ${value}`);
-  };
-
-  const onChangeOption = e => {
-    console.log("radio1 checked", e.target.value);
-    setPlainOptions(e.target.value);
-  };
 
   const onChange = () => {
     localStorage.setItem("Step Location", JSON.stringify(StepLocation));
+    console.log(JSON.stringify(StepLocation));
   };
 
   return (
@@ -87,6 +85,7 @@ export const StepLocation = () => {
       <div style={{ paddingLeft: 100 }}>
         <p style={{ fontWeight: "bold" }}>Country</p>
         <Select
+          value={StepLocation.Country}
           name="Country"
           defaultValue="it-IT"
           style={{ width: 120 }}
@@ -109,6 +108,7 @@ export const StepLocation = () => {
         <Row>
           <Col span={4}>
             <Select
+              value={StepLocation.TipologiaPOS}
               name="TipologiaPOS"
               defaultValue="Boutique"
               style={{ width: 160 }}
@@ -125,7 +125,8 @@ export const StepLocation = () => {
           </Col>
           <Col span={4}>
             <Select
-              name="POs"
+              value={StepLocation.POS}
+              name="Pos"
               defaultValue="sanGiovanni"
               style={{ width: 160 }}
               onChange={value => {
@@ -145,10 +146,15 @@ export const StepLocation = () => {
       </div>
       <div style={{ paddingLeft: 100 }}>
         <Radio.Group
-          name="RadioGroup"
+          value={StepLocation.Distanza}
+          name="Distanza"
           options={option}
-          onChange={onChangeOption}
-          value={selectedOptions}
+          onChange={event => {
+            setStepLocation({
+              ...StepLocation,
+              Distanza: event.target.value
+            });
+          }}
         ></Radio.Group>
       </div>
       <div style={{ paddingLeft: 100 }}>
@@ -164,6 +170,7 @@ export const StepLocation = () => {
             <Row>
               <Col span={6}>
                 <Select
+                  value={StepLocation.Zona}
                   name="Zona"
                   defaultValue="Camerino"
                   style={{ width: 160 }}
@@ -180,6 +187,7 @@ export const StepLocation = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepLocation.DistanzaEntrata}
                   name="DistanzaEntrata"
                   defaultValue="a30m"
                   style={{ width: 160 }}
@@ -196,6 +204,7 @@ export const StepLocation = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepLocation.DistanzaUscita}
                   name="DistanzaUscita"
                   defaultValue="a30m"
                   style={{ width: 160 }}
@@ -226,6 +235,7 @@ export const StepLocation = () => {
               <Row>
                 <Col span={6}>
                   <Select
+                    value={StepLocation.Merce}
                     name="Merce"
                     defaultValue="Abbigliamento"
                     style={{ width: 160 }}
@@ -242,7 +252,8 @@ export const StepLocation = () => {
                 </Col>
                 <Col span={6}>
                   <Select
-                    name="CLasse"
+                    value={StepLocation.Classe}
+                    name="Classe"
                     defaultValue="Abito"
                     style={{ width: 160 }}
                     onChange={value => {
@@ -258,6 +269,7 @@ export const StepLocation = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepLocation.Sottoclasse}
                     name="Sottoclasse"
                     defaultValue="Mini"
                     style={{ width: 160 }}
@@ -283,7 +295,7 @@ export const StepLocation = () => {
           <Row>
             <Col span={6}>
               <Link to="/StepTempo">
-                <Button onClick={useEffect}>Indietro</Button>
+                <Button>Indietro</Button>
               </Link>
             </Col>
             <Col span={6}></Col>

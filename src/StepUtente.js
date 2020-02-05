@@ -11,32 +11,63 @@ import {
 } from "antd";
 import moment from "moment";
 import { Link } from "@reach/router";
+import { StepActions } from "./StepActions";
+
+const defaultValue = {
+  sesso: "M",
+  data: moment().valueOf(),
+  fascia: "35-45",
+  stato: "Nubile",
+  indirizzo: "Domicilio",
+  Nazione: "Italia",
+  Città: "Firenze",
+  Livello: "Alta",
+  Attività: "Alta",
+  Punti: "meno di",
+  PuntiMancanti: "meno di",
+  Attenzione: "Alta",
+  DataPassaggio: moment().valueOf(),
+  DataAttivazione: moment().valueOf(),
+  Tipologia: "ComboBox",
+  Classe: "ComboBox",
+  Sottoclasse: "ComboBox",
+  Prodotto: "ComboBox",
+  LivelloInteresse: "l1",
+  FrequenzaAcquisto: "ComboBox",
+  FrequenzaOnline: "ComboBox",
+  FrequenzaNegozio: "ComboBox",
+  UltimoAcquisto: "ComboBox",
+  AccessoNegozio: "ComboBox",
+  AccessoOnline: "ComboBox",
+  FasciaImporto: "ComboBox",
+  Negozio: "NegozioFavorito",
+  NazioneNegozio: "Italia",
+  TipologiaPOS: "Boutique",
+  POS: "sanGiovanni",
+  CondizioneTemp: "ComboBox",
+  Tipo: "Camerino"
+};
 
 export const StepUtente = () => {
   const dateFormat = "DD/MM/YYYY";
   const { Option } = Select;
-  const [selectedOptions, setPlainOptions] = useState("negozioFavorito");
-
   const option = [
     { label: "Negozio Favorito", value: "negozioFavorito" },
     { label: "Negozio Frequentato", value: "negozioFrequentato" }
   ];
 
-  const [StepUtente, setStepUtente] = useState({
-    sesso: "",
-    data: "",
-    fascia: "",
-    stato: "",
-    indirizzo: ""
-  });
+  useEffect(() => {
+    console.log("use Effect");
+    var local = localStorage.getItem("Step Utente");
+    console.log(JSON.parse(local));
+    setStepUtente(JSON.parse(local) || defaultValue);
+  }, []);
 
-  const handleChange = value => {
-    console.log(`selected ${value}`);
-  };
+  const [StepUtente, setStepUtente] = useState(defaultValue);
 
-  const onChangeOption = e => {
-    console.log("radio1 checked", e.target.value);
-    setPlainOptions(e.target.value);
+  const onChange = () => {
+    localStorage.setItem("Step Utente", JSON.stringify(StepUtente));
+    console.log(JSON.stringify(StepUtente));
   };
 
   return (
@@ -92,6 +123,7 @@ export const StepUtente = () => {
             <Row>
               <Col span={6}>
                 <Select
+                  value={StepUtente.sesso}
                   name="sesso"
                   defaultValue="M"
                   style={{ width: 160 }}
@@ -108,8 +140,8 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <DatePicker
+                  value={moment(StepUtente.data)}
                   name="data"
-                  defaultValue={moment("03/02/20", dateFormat)}
                   format={dateFormat}
                   onChange={(date, dateString) => {
                     setStepUtente({
@@ -121,6 +153,7 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepUtente.fascia}
                   name="fascia"
                   defaultValue="25-35"
                   style={{ width: 160 }}
@@ -137,6 +170,7 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepUtente.stato}
                   name="stato"
                   defaultValue="Nubile"
                   style={{ width: 160 }}
@@ -169,6 +203,7 @@ export const StepUtente = () => {
             <Row>
               <Col span={6}>
                 <Select
+                  value={StepUtente.indirizzo}
                   name="indirizzo"
                   defaultValue="Domicilio"
                   style={{ width: 160 }}
@@ -185,9 +220,16 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepUtente.Domicilio}
+                  name="Nazione"
                   defaultValue="Italia"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepUtente({
+                      ...StepUtente,
+                      Domicilio: value
+                    });
+                  }}
                 >
                   <Option value="Italia">Italia</Option>
                   <Option value="Altro">Altro</Option>
@@ -195,9 +237,16 @@ export const StepUtente = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepUtente.Residenza}
+                  name="Città"
                   defaultValue="Firenze"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepUtente({
+                      ...StepUtente,
+                      Residenza: value
+                    });
+                  }}
                 >
                   <Option value="Firenze">Firenze</Option>
                   <Option value="Altro">Altro</Option>
@@ -218,9 +267,16 @@ export const StepUtente = () => {
               <Row>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.Livello}
+                    name="Livello"
                     defaultValue="Alta"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Livello: value
+                      });
+                    }}
                   >
                     <Option value="Alta">Alta</Option>
                     <Option value="Bassa">Bassa</Option>
@@ -228,9 +284,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.Attività}
+                    name="Attività"
                     defaultValue="Alta"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Attività: value
+                      });
+                    }}
                   >
                     <Option value="Alta">Alta</Option>
                     <Option value="Bassa">Bassa</Option>
@@ -252,9 +315,16 @@ export const StepUtente = () => {
               <Row>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.Punti}
+                    name="Punti"
                     defaultValue="Meno di 10"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Punti: value
+                      });
+                    }}
                   >
                     <Option value="Meno di">Meno di 10</Option>
                     <Option value="Più di">Più di 10</Option>
@@ -262,9 +332,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.PuntiMancanti}
+                    name="PuntiMancanti"
                     defaultValue="Meno di 10"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        PuntiMancanti: value
+                      });
+                    }}
                   >
                     <Option value="Meno di">Meno di 10</Option>
                     <Option value="Più di">Più di 10</Option>
@@ -272,9 +349,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.Attenzione}
+                    name="Attenzione"
                     defaultValue="Alta"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Attenzione: value
+                      });
+                    }}
                   >
                     <Option value="Alta">Alta</Option>
                     <Option value="Bassa">Bassa</Option>
@@ -294,14 +378,28 @@ export const StepUtente = () => {
             <Row>
               <Col span={6}>
                 <DatePicker
-                  defaultValue={moment("03/02/20", dateFormat)}
+                  value={moment(StepUtente.DataAttivazione)}
+                  name="DataAttivazione"
                   format={dateFormat}
+                  onChange={(date, dateString) => {
+                    setStepUtente({
+                      ...StepUtente,
+                      DataAttivazione: date.valueOf()
+                    });
+                  }}
                 />
               </Col>
               <Col span={6}>
                 <DatePicker
-                  defaultValue={moment("03/02/20", dateFormat)}
+                  value={moment(StepUtente.DataPassaggio)}
+                  name="DataPassaggio"
                   format={dateFormat}
+                  onChange={(date, dateString) => {
+                    setStepUtente({
+                      ...StepUtente,
+                      DataPassaggio: date.valueOf()
+                    });
+                  }}
                 />
               </Col>
             </Row>
@@ -314,7 +412,7 @@ export const StepUtente = () => {
             <Row>
               <Col span={4}>Tipologia Merceologica</Col>
               <Col span={4}>Classe Merceologica</Col>
-              <Col span={4}>Sotto classe Merceologica</Col>
+              <Col span={4}>Sottoclasse Merceologica</Col>
               <Col span={4}>Prodotto</Col>
               <Col span={4}>Livello di Interesse</Col>
             </Row>
@@ -323,9 +421,16 @@ export const StepUtente = () => {
               <Row>
                 <Col span={4}>
                   <Select
+                    value={StepUtente.Tipologia}
+                    name="Tipologia"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Tipologia: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -333,9 +438,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={4}>
                   <Select
+                    value={StepUtente.Classe}
+                    name="Classe"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Classe: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -343,9 +455,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={4}>
                   <Select
+                    value={StepUtente.Sottoclasse}
+                    name="Sottoclasse"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Sottoclasse: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -353,9 +472,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={4}>
                   <Select
+                    value={StepUtente.Prodotto}
+                    name="Prodotto"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        Prodotto: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -363,9 +489,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={4}>
                   <Select
+                    value={StepUtente.LivelloInteresse}
+                    name="LivelloInteresse<"
                     defaultValue="l1"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        LivelloInteresse: value
+                      });
+                    }}
                   >
                     <Option value="l1">l1</Option>
                     <Option value="l2">l2</Option>
@@ -393,9 +526,16 @@ export const StepUtente = () => {
               <Row>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.FrequenzaAcquisto}
+                    name="FrequenzaAcquisto"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        FrequenzaAcquisto: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -403,9 +543,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.FrequenzaOnline}
+                    name="FrequenzaOnline"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepUtente,
+                        FrequenzaOnline: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -413,9 +560,16 @@ export const StepUtente = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepUtente.FrequenzaNegozio}
+                    name="FrequenzaNegozio"
                     defaultValue="ComboBox"
                     style={{ width: 160 }}
-                    onChange={handleChange}
+                    onChange={value => {
+                      setStepUtente({
+                        ...StepActions,
+                        FrequenzaNegozio: value
+                      });
+                    }}
                   >
                     <Option value="ComboBox">ComboBox</Option>
                     <Option value="Altro">Altro</Option>
@@ -427,9 +581,9 @@ export const StepUtente = () => {
             <p></p>
             <div>
               <Row>
-                <Col span={6}>Frequenza media acquisto cliente</Col>
-                <Col span={6}>Frequenza media accesso online</Col>
-                <Col span={6}>Frequenza media accesso in negozio</Col>
+                <Col span={6}>Giorni da ultimo acquisto</Col>
+                <Col span={6}>Giorno da ultimo accesso in negozio</Col>
+                <Col span={6}>Giorni da ultimo accesso online</Col>
               </Row>
               <br></br>
 
@@ -437,9 +591,16 @@ export const StepUtente = () => {
                 <Row>
                   <Col span={6}>
                     <Select
+                      value={StepUtente.UltimoAcquisto}
+                      name="UltimoAcquisto"
                       defaultValue="ComboBox"
                       style={{ width: 160 }}
-                      onChange={handleChange}
+                      onChange={value => {
+                        setStepUtente({
+                          ...StepUtente,
+                          UltimoAcquisto: value
+                        });
+                      }}
                     >
                       <Option value="ComboBox">ComboBox</Option>
                       <Option value="Altro">Altro</Option>
@@ -447,9 +608,16 @@ export const StepUtente = () => {
                   </Col>
                   <Col span={6}>
                     <Select
+                      value={StepUtente.AccessoNegozio}
+                      name="AccessoNegozio"
                       defaultValue="ComboBox"
                       style={{ width: 160 }}
-                      onChange={handleChange}
+                      onChange={value => {
+                        setStepUtente({
+                          ...StepUtente,
+                          AccessoNegozio: value
+                        });
+                      }}
                     >
                       <Option value="ComboBox">ComboBox</Option>
                       <Option value="Altro">Altro</Option>
@@ -457,9 +625,16 @@ export const StepUtente = () => {
                   </Col>
                   <Col span={6}>
                     <Select
+                      value={StepUtente.AccessoOnline}
+                      name="AccessoOnline"
                       defaultValue="ComboBox"
                       style={{ width: 160 }}
-                      onChange={handleChange}
+                      onChange={value => {
+                        setStepUtente({
+                          ...StepUtente,
+                          AccessoOnline: value
+                        });
+                      }}
                     >
                       <Option value="ComboBox">ComboBox</Option>
                       <Option value="Altro">Altro</Option>
@@ -480,9 +655,16 @@ export const StepUtente = () => {
                 <Row>
                   <Col span={6}>
                     <Select
+                      value={StepUtente.FasciaImporto}
+                      name="FasciaImporto"
                       defaultValue="ComboBox"
                       style={{ width: 160 }}
-                      onChange={handleChange}
+                      onChange={value => {
+                        setStepUtente({
+                          ...StepUtente,
+                          FasciaImporto: value
+                        });
+                      }}
                     >
                       <Option value="ComboBox">ComboBox</Option>
                       <Option value="Altro">Altro</Option>
@@ -498,9 +680,16 @@ export const StepUtente = () => {
                 <Row>
                   <Col span={6}>
                     <Radio.Group
+                      value={StepUtente.Negozio}
+                      name="Negozio"
+                      defaultValue="Italia"
                       options={option}
-                      onChange={onChangeOption}
-                      value={selectedOptions}
+                      onChange={value => {
+                        setStepUtente({
+                          ...StepUtente,
+                          Negozio: value.target.value
+                        });
+                      }}
                     ></Radio.Group>
                   </Col>
                 </Row>
@@ -518,9 +707,16 @@ export const StepUtente = () => {
                   <Row>
                     <Col span={6}>
                       <Select
+                        value={StepUtente.NazioneNegozio}
+                        name="NazioneNegozio"
                         defaultValue="Italia"
                         style={{ width: 160 }}
-                        onChange={handleChange}
+                        onChange={value => {
+                          setStepUtente({
+                            ...StepUtente,
+                            Nazione: value
+                          });
+                        }}
                       >
                         <Option value="Italia">Italia</Option>
                         <Option value="Altro">Altro</Option>
@@ -528,9 +724,16 @@ export const StepUtente = () => {
                     </Col>
                     <Col span={6}>
                       <Select
+                        value={StepUtente.TipologiaPOS}
+                        name="TipologiaPOS"
                         defaultValue="Boutique"
                         style={{ width: 160 }}
-                        onChange={handleChange}
+                        onChange={value => {
+                          setStepUtente({
+                            ...StepUtente,
+                            TipologiaPOS: value
+                          });
+                        }}
                       >
                         <Option value="Boutique">Boutique</Option>
                         <Option value="Altro">Altro</Option>
@@ -538,9 +741,16 @@ export const StepUtente = () => {
                     </Col>
                     <Col span={6}>
                       <Select
+                        value={StepUtente.POS}
+                        name="POS"
                         defaultValue="sanGiovanni"
                         style={{ width: 160 }}
-                        onChange={handleChange}
+                        onChange={value => {
+                          setStepUtente({
+                            ...StepUtente,
+                            POS: value
+                          });
+                        }}
                       >
                         <Option value="sanGiovanni">
                           Piazza San Giovanni, 17
@@ -562,9 +772,16 @@ export const StepUtente = () => {
                 <Row>
                   <Col span={6}>
                     <Select
+                      value={StepUtente.CondizioneTemp}
+                      name="CondizioneTemp"
                       defaultValue="ComboBox"
                       style={{ width: 160 }}
-                      onChange={handleChange}
+                      onChange={value => {
+                        setStepUtente({
+                          ...setStepUtente,
+                          CondizioneTemp: value
+                        });
+                      }}
                     >
                       <Option value="ComboBox">ComboBox</Option>
                       <Option value="Altro">Altro</Option>
@@ -572,9 +789,16 @@ export const StepUtente = () => {
                   </Col>
                   <Col span={6}>
                     <Select
+                      value={StepUtente.Tipo}
+                      name="Tipo"
                       defaultValue="Camerino"
                       style={{ width: 160 }}
-                      onChange={handleChange}
+                      onChange={value => {
+                        setStepUtente({
+                          ...StepUtente,
+                          Tipo: value
+                        });
+                      }}
                     >
                       <Option value="Camerino">Camerino</Option>
                       <Option value="Altro">Altro</Option>
@@ -599,7 +823,7 @@ export const StepUtente = () => {
 
               <Col span={6}>
                 <Link to="/StepActions">
-                  <Button>Avanti</Button>
+                  <Button onClick={onChange}>Avanti</Button>
                 </Link>
               </Col>
             </Row>

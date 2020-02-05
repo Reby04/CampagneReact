@@ -4,24 +4,27 @@ import moment from "moment";
 import { Select } from "antd";
 import { Link } from "@reach/router";
 
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
+const defaultValue = {
+  nomeCampagna: "",
+  dataInizio: moment().valueOf(),
+  dataFine: moment().valueOf(),
+  profiloCampagna: "Global Campain",
+  note: "",
+  Campagna: ""
+};
+
 export const NuovaCampagna = () => {
-  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
   const { Option } = Select;
   const { TextArea } = Input;
-  const [nuovaCampagna, setNuovaCampagna] = useState({
-    nomeCampagna: "",
-    dataInizio: "",
-    dataFine: "",
-    profiloCampagna: "",
-    note: ""
-  });
+  const [nuovaCampagna, setNuovaCampagna] = useState(defaultValue);
   console.log(nuovaCampagna);
 
   useEffect(() => {
     console.log("use Effect");
     var local = localStorage.getItem("Nuova Campagna");
     console.log(JSON.parse(local));
-    setNuovaCampagna(JSON.parse(local));
+    setNuovaCampagna(JSON.parse(local) || defaultValue);
   }, []);
 
   /* function handleChange(event) {
@@ -38,6 +41,7 @@ export const NuovaCampagna = () => {
 
   const onChange = () => {
     localStorage.setItem("Nuova Campagna", JSON.stringify(nuovaCampagna));
+    console.log(JSON.stringify(nuovaCampagna));
   };
 
   return (
@@ -84,7 +88,12 @@ export const NuovaCampagna = () => {
       <Row>
         <Col span={6}>Nome Campagna</Col>
         <Col span={6}>
-          <Input name="nomeCampagna" placeholder="" onChange={onChangeInput} />
+          <Input
+            name="nomeCampagna"
+            placeholder=""
+            value={nuovaCampagna.nomeCampagna}
+            onChange={onChangeInput}
+          />
         </Col>
       </Row>
       <br></br>
@@ -93,7 +102,7 @@ export const NuovaCampagna = () => {
           <Col span={6}>Data Inizio Campagna</Col>
           <Col span={6}>
             <DatePicker
-              defaultValue={moment("04/02/2020", dateFormatList[0])}
+              value={moment(nuovaCampagna.dataInizio)}
               name="dataInizio"
               format={dateFormatList}
               onChange={(date, dateString) => {
@@ -112,7 +121,7 @@ export const NuovaCampagna = () => {
           <Col span={6}>Data Fine Campagna</Col>
           <Col span={6}>
             <DatePicker
-              defaultValue={moment("04/02/2020", dateFormatList[0])}
+              value={moment(nuovaCampagna.dataFine)}
               name="dataFine"
               format={dateFormatList}
               onChange={(date, dateString) => {
@@ -131,6 +140,7 @@ export const NuovaCampagna = () => {
           <Col span={6}>Profilo Campagna</Col>
           <Col span={6}>
             <Select
+              value={nuovaCampagna.profiloCampagna}
               name="profiloCampagna"
               defaultValue="Global"
               style={{ width: 160 }}
@@ -153,6 +163,7 @@ export const NuovaCampagna = () => {
           <Col span={6}>Note</Col>
           <Col span={6}>
             <TextArea
+              value={nuovaCampagna.note}
               name="note"
               onChange={onChangeInput}
               rows={2}

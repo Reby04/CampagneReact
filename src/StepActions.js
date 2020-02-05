@@ -2,26 +2,52 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Divider, Card, Select } from "antd";
 import { Link } from "@reach/router";
 
+const defaultValue = {
+  Tipo: "VideoWall",
+  Zona: "Camerino",
+  Scelta: "VideoBorse"
+};
+
 export const StepActions = () => {
   const { Option } = Select;
-  const [stepAtion, setStepAction] = useState({});
+  const [StepActions, setStepActions] = useState(defaultValue);
   const handleChange = value => {
     console.log(`selected ${value}`);
   };
 
-  const onChangeSave = () => {
-    // JSON.stringify(Step1);
-  };
-
   useEffect(() => {
     console.log("use Effect");
-    var local = localStorage.getItem("Step Action");
+    var local = localStorage.getItem("Step Actions");
     console.log(JSON.parse(local));
-    setStepAction(JSON.parse(local));
+    setStepActions(JSON.parse(local) || defaultValue);
   }, []);
 
+  var nuovaCampagna = localStorage.getItem("Nuova Campagna");
+  nuovaCampagna = JSON.parse(nuovaCampagna);
+
+  var StepTempo = localStorage.getItem("Step Tempo");
+  StepTempo = JSON.parse(StepTempo);
+
+  var StepLocation = localStorage.getItem("Step Location");
+  StepLocation = JSON.parse(StepLocation);
+
+  var StepUtente = localStorage.getItem("Step Utente");
+  StepUtente = JSON.parse(StepUtente);
+
   const onChange = () => {
-    localStorage.setItem("Step Action", JSON.stringify(stepAtion));
+    localStorage.setItem("Step Actions", JSON.stringify(StepActions));
+    console.log(JSON.stringify(StepActions));
+    var summary = {
+      ...nuovaCampagna,
+      ...StepTempo,
+      ...StepLocation,
+      ...StepUtente,
+      ...StepActions
+    };
+
+    console.log(summary);
+
+    localStorage.setItem("Summary", JSON.stringify(summary));
   };
 
   return (
@@ -76,9 +102,16 @@ export const StepActions = () => {
             <Row>
               <Col span={4}>
                 <Select
+                  value={StepActions.Tipo}
+                  name="Tipo"
                   defaultValue="Pilota"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepActions({
+                      ...StepActions,
+                      Tipo: value
+                    });
+                  }}
                 >
                   <Option value="Pilota">Pilota VideoWall</Option>
                   <Option value="Altro">Altro</Option>
@@ -102,9 +135,16 @@ export const StepActions = () => {
             <Row>
               <Col span={6}>
                 <Select
+                  value={StepActions.Zona}
+                  name="Zona"
                   defaultValue="Camerino"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepActions({
+                      ...StepActions,
+                      Zona: value
+                    });
+                  }}
                 >
                   <Option value="Camerino">Camerino</Option>
                   <Option value="Altro">Altro</Option>
@@ -112,9 +152,16 @@ export const StepActions = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepActions.Scelta}
+                  name="Scelta"
                   defaultValue="Borse"
                   style={{ width: 160 }}
-                  onChange={handleChange}
+                  onChange={value => {
+                    setStepActions({
+                      ...StepActions,
+                      Scelta: value
+                    });
+                  }}
                 >
                   <Option value="Borse">Video Borse</Option>
                   <Option value="Altro">Altro</Option>
@@ -161,7 +208,7 @@ export const StepActions = () => {
 
           <Col span={6}>
             <Link to="/">
-              <Button onClick={onChangeSave}>Salva</Button>
+              <Button onClick={onChange}>Salva</Button>
             </Link>
           </Col>
         </Row>

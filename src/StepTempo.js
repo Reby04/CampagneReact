@@ -13,39 +13,39 @@ import {
 } from "antd";
 import moment from "moment";
 import { Link } from "@reach/router";
+const defaultForm = {
+  Condizione: "Condizione Temporale",
+  Checkbox: "Lun",
+  Festivo: "Festivo",
+  TuttiGG: "TuttiGG",
+  Time1: moment().valueOf(),
+  Time2: moment().valueOf(),
+  Time3: moment().valueOf(),
+  Time4: moment().valueOf(),
+  Stagioni: "autunno",
+  Temp: "10",
+  TempAttuale: "10",
+  TempMax: "10",
+  Meteo: "Nuvoloso"
+};
 
 export const StepTempo = () => {
   const { Option } = Select;
-  const [selectedOptions, setPlainOptions] = useState("Condizione temporale");
-  const [selectedWeek, setSelectedWeek] = useState("");
   const option = [
     { label: "Condizione temporale", value: "Condizione temporale" },
     { label: "Sempre", value: "Sempre" }
   ];
 
-  const [stepTempo, setStepTempo] = useState({
-    Checkbox: "",
-    Festivo: "",
-    TuttiGG: "",
-    Time1: "",
-    Time2: "",
-    Time3: "",
-    Time4: "",
-    Stagioni: "",
-    Temp: "",
-    TempAttuale: "",
-    TempMax: "",
-    Meteo: ""
-  });
+  const [StepTempo, setStepTempo] = useState(defaultForm);
 
   useEffect(() => {
     console.log("use Effect");
     var local = localStorage.getItem("Step Tempo");
     console.log(JSON.parse(local));
-    setStepTempo(JSON.parse(local));
+    setStepTempo(JSON.parse(local) || defaultForm);
   }, []);
 
-  console.log(stepTempo);
+  console.log(StepTempo);
   const week = [
     { label: "Lun", value: "Lun" },
     { label: "Mar", value: "Mar" },
@@ -58,11 +58,6 @@ export const StepTempo = () => {
 
   const format = "HH:mm";
 
-  const onChangeOption = e => {
-    console.log("radio1 checked", e.target.value);
-    setPlainOptions(e.target.value);
-  };
-
   /* const onChangeWeek = e => {
     setSelectedWeek(e);
   };
@@ -72,7 +67,8 @@ export const StepTempo = () => {
   };*/
 
   const onChange = () => {
-    localStorage.setItem("Step Tempo", JSON.stringify(stepTempo));
+    localStorage.setItem("Step Tempo", JSON.stringify(StepTempo));
+    console.log(JSON.stringify(StepTempo) || defaultForm);
   };
 
   return (
@@ -117,32 +113,41 @@ export const StepTempo = () => {
       </div>
       <div style={{ paddingLeft: 130 }}>
         <Radio.Group
+          name="Condizione"
           options={option}
-          onChange={onChangeOption}
-          value={selectedOptions}
+          value={StepTempo.Condizione}
+          onChange={event => {
+            console.log(event);
+            setStepTempo({
+              ...StepTempo,
+              Condizione: event.target.value
+            });
+          }}
         ></Radio.Group>
       </div>
       <br></br>
       <div style={{ paddingLeft: 100 }}>
-        {selectedOptions === "Condizione temporale" && (
+        {StepTempo.Condizione === "Condizione temporale" && (
           <Card title="Condizione Temporale" style={{ width: 800 }}>
             <Checkbox.Group
+              value={StepTempo.Checkbox}
               name="Checkbox"
               options={week}
               defaultValue={["Lun"]}
               onChange={value => {
                 setStepTempo({
-                  ...stepTempo,
+                  ...StepTempo,
                   Checkbox: value
                 });
               }}
             />
             <Checkbox
+              value={StepTempo.Festivo}
               name="Festivo"
               defaultChecked={false}
               onChange={value => {
                 setStepTempo({
-                  ...stepTempo,
+                  ...StepTempo,
                   Checkbox: value
                 });
               }}
@@ -151,12 +156,13 @@ export const StepTempo = () => {
             </Checkbox>
             <div>
               <Checkbox
+                value={StepTempo.TuttiGG}
                 name="TuttiGG"
                 style={{ paddingLeft: 444 }}
                 defaultChecked={false}
                 onChange={value => {
                   setStepTempo({
-                    ...stepTempo,
+                    ...StepTempo,
                     Checkbox: value
                   });
                 }}
@@ -170,12 +176,12 @@ export const StepTempo = () => {
                 <Col span={6}>
                   <p>Ora Inizio</p>
                   <TimePicker
+                    value={moment(StepTempo.Time1)}
                     name="Time1"
-                    defaultValue={moment("00:00", format)}
                     format={format}
                     onChange={(time, timeSring) =>
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         Time1: time.valueOf()
                       })
                     }
@@ -184,12 +190,12 @@ export const StepTempo = () => {
                 <Col span={6}>
                   <p>Ora Fine</p>
                   <TimePicker
+                    value={moment(StepTempo.Time2)}
                     name="Time2"
-                    defaultValue={moment("00:00", format)}
                     format={format}
                     onChange={(time, timeString) =>
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         Time2: time.valueOf()
                       })
                     }
@@ -205,12 +211,12 @@ export const StepTempo = () => {
               <Row gutter={16}>
                 <Col span={6}>
                   <TimePicker
+                    value={moment(StepTempo.Time3)}
                     name="Time3"
-                    defaultValue={moment("00:00", format)}
                     format={format}
                     onChange={(time, timeSring) =>
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         Time3: time.valueOf()
                       })
                     }
@@ -218,12 +224,12 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <TimePicker
+                    value={moment(StepTempo.Time4)}
                     name="Time4"
-                    defaultValue={moment("00:00", format)}
                     format={format}
                     onChange={(time, timeSring) =>
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         Time4: time.valueOf()
                       })
                     }
@@ -250,12 +256,13 @@ export const StepTempo = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepTempo.Stagioni}
                   name="Stagioni"
                   defaultValue="autunno"
                   style={{ width: 120 }}
                   onChange={value => {
                     setStepTempo({
-                      ...stepTempo,
+                      ...StepTempo,
                       Stagioni: value
                     });
                   }}
@@ -271,12 +278,13 @@ export const StepTempo = () => {
               </Col>
               <Col span={6}>
                 <Select
+                  value={StepTempo.Temp}
                   name="Temp"
                   defaultValue="10"
                   style={{ width: 120 }}
                   onChange={value => {
                     setStepTempo({
-                      ...stepTempo,
+                      ...StepTempo,
                       Temp: value
                     });
                   }}
@@ -295,12 +303,13 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepTempo.TempAttuale}
                     name="TempAttuale"
                     defaultValue="10"
                     style={{ width: 120 }}
                     onChange={value => {
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         TempAttuale: value
                       });
                     }}
@@ -316,12 +325,13 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepTempo.TempMax}
                     name="TempMax"
                     defaultValue="10"
                     style={{ width: 120 }}
                     onChange={value => {
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         TempMax: value
                       });
                     }}
@@ -341,12 +351,13 @@ export const StepTempo = () => {
                 </Col>
                 <Col span={6}>
                   <Select
+                    value={StepTempo.Meteo}
                     name="Meteo"
                     defaultValue="Nuvoloso"
                     style={{ width: 120 }}
                     onChange={value => {
                       setStepTempo({
-                        ...stepTempo,
+                        ...StepTempo,
                         Meteo: value
                       });
                     }}
